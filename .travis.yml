@@ -5,5 +5,19 @@ services:
 
 before_install:
   - docker build -t luissilva1111511/dockertuto:dev -f Dockerfile.dev .
+
 script:
   - docker run -e CI=true luissilva1111511/dockertuto:dev npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-1"
+  app: "dockertutot"
+  env: "Dockertutot-env"
+  bucket_name: "elasticbeanstalk-eu-west-1-072464287739"
+  bucket_path: "dockertutot"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_ACCESS_SECRET"
